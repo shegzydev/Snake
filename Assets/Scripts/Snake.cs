@@ -5,12 +5,18 @@ using UnityEngine;
 
 public class Snake : MonoBehaviour
 {
+    SpriteManager spriteManager;
+
     [SerializeField] GameObject chunk;
     [SerializeField] float speed;
 
     public Transform Food;
+
     public Transform Head;
-    public List<Transform> body;
+    SpriteRenderer HeadSprite;
+
+    public List<Transform> Body;
+    public List<SpriteRenderer> BodySprite;
 
     Vector2 dir;
     float lasttime;
@@ -18,16 +24,26 @@ public class Snake : MonoBehaviour
     int width = 17;
     int height = 9;
 
+    int score = 0;
+
     bool gameOver;
+
     void Start()
     {
+        spriteManager = FindObjectOfType<SpriteManager>();
+
+        HeadSprite = Head.GetComponent<SpriteRenderer>();
+
         Head.position = new Vector2(Random.Range(-width, width + 1), Random.Range(-height, height + 1));
         Food.position = new Vector2(Random.Range(-width, width + 1), Random.Range(-height, height + 1));
 
-        body = new List<Transform>
+        Body = new List<Transform>
         {
             Instantiate(chunk).transform
         };
+
+        BodySprite = new List<SpriteRenderer>();
+        BodySprite.Add(Body[0].GetComponent<SpriteRenderer>());
 
         dir = Vector2.right;
     }
@@ -44,6 +60,7 @@ public class Snake : MonoBehaviour
 
         if (ToInt(Head.position.x) == ToInt(Food.position.x) && ToInt(Head.position.y) == ToInt(Food.position.y))
         {
+            score++;
             Food.position = new Vector2(Random.Range(-17, 18), Random.Range(-9, 10));
             Elongate();
         }
@@ -87,14 +104,15 @@ public class Snake : MonoBehaviour
     {
         if (gameOver) return;
 
-        for (int i = body.Count - 1; i > 0; i--)
+        for (int i = Body.Count - 1; i > 0; i--)
         {
-            body[i].position = body[i - 1].position;
+            Body[i].position = Body[i - 1].position;
         }
-        body[0].position = Head.position;
+        Body[0].position = Head.position;
         Head.position += (Vector3)dir;
 
         LoopBoundaries();
+        AssignSprites();
     }
 
     void LoopBoundaries()
@@ -108,19 +126,39 @@ public class Snake : MonoBehaviour
 
     void Elongate()
     {
-        body.Add(Instantiate(chunk).transform);
+        Transform tmp = Instantiate(chunk).transform;
+        Body.Add(tmp);
+        BodySprite.Add(tmp.GetComponent<SpriteRenderer>());
     }
 
     void CheckGameOver()
     {
-        foreach (Transform t in body)
+        foreach (Transform t in Body)
         {
-            if(ToInt(Head.position.x) == ToInt(t.position.x) && ToInt(Head.position.y) == ToInt(t.position.y))
+            if (ToInt(Head.position.x) == ToInt(t.position.x) && ToInt(Head.position.y) == ToInt(t.position.y))
             {
                 dir = Vector2.zero;
                 gameOver = true;
+                FindObjectOfType<GameManager>().ShowEndScreen();
                 break;
             }
+        }
+    }
+
+    void AssignSprites()
+    {
+        HeadSprite.sprite = spriteManager.GetSprite(0, Head.position, Head.position + (Vector3)dir);
+        for (int i = 1; i < Body.Count - 1; i++)
+        {
+            BodySprite[i].sprite = spriteManager.GetSprite(1, Body[i + 1].position, Body[i - 1].position);
+        }
+    }
+
+    public int GetScore
+    {
+        get
+        {
+            return score;
         }
     }
 
