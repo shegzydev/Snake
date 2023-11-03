@@ -398,10 +398,19 @@ MonoBehaviour:
   - {fileID: 265972263, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
   - {fileID: 813298959, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
   - {fileID: -1533674201, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
-  cornerSprites: []
+  cornerSprites:
+  - {fileID: 290988279, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
+  - {fileID: -799721910, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
+  - {fileID: 782629734, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
+  - {fileID: 477391583, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
   bodySprites:
   - {fileID: 609507364, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
   - {fileID: 1734403696, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
+  tailSprites:
+  - {fileID: 58299024, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
+  - {fileID: 1826492631, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
+  - {fileID: 2021485916, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
+  - {fileID: -342323308, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
 --- !u!1 &597909656
 GameObject:
   m_ObjectHideFlags: 0
@@ -883,7 +892,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 6c82e4586d9424d449c7a99fe01c616e, type: 3}
+  m_Sprite: {fileID: -980043625, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
   m_Color: {r: 1, g: 0.9635421, b: 0.033018887, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -1270,7 +1279,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 7482667652216324306, guid: db750325989564987a34393247d883b4, type: 3}
+  m_Sprite: {fileID: 1806020680, guid: b77500c9e06709e4cb381b176fd94215, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

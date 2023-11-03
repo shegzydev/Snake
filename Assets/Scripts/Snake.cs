@@ -37,13 +37,11 @@ public class Snake : MonoBehaviour
         Head.position = new Vector2(Random.Range(-width, width + 1), Random.Range(-height, height + 1));
         Food.position = new Vector2(Random.Range(-width, width + 1), Random.Range(-height, height + 1));
 
-        Body = new List<Transform>
-        {
-            Instantiate(chunk).transform
-        };
-
+        Body = new List<Transform>();
         BodySprite = new List<SpriteRenderer>();
-        BodySprite.Add(Body[0].GetComponent<SpriteRenderer>());
+
+        Elongate();
+        Elongate();
 
         dir = Vector2.right;
     }
@@ -111,8 +109,8 @@ public class Snake : MonoBehaviour
         Body[0].position = Head.position;
         Head.position += (Vector3)dir;
 
-        LoopBoundaries();
         AssignSprites();
+        LoopBoundaries();
     }
 
     void LoopBoundaries()
@@ -133,6 +131,8 @@ public class Snake : MonoBehaviour
 
     void CheckGameOver()
     {
+        if(gameOver) return;
+
         foreach (Transform t in Body)
         {
             if (ToInt(Head.position.x) == ToInt(t.position.x) && ToInt(Head.position.y) == ToInt(t.position.y))
@@ -147,10 +147,24 @@ public class Snake : MonoBehaviour
 
     void AssignSprites()
     {
-        HeadSprite.sprite = spriteManager.GetSprite(0, Head.position, Head.position + (Vector3)dir);
-        for (int i = 1; i < Body.Count - 1; i++)
+        try
         {
-            BodySprite[i].sprite = spriteManager.GetSprite(1, Body[i + 1].position, Body[i - 1].position);
+            //Assign head sprite
+            HeadSprite.sprite = spriteManager.GetSprite(0, Vector3.zero, Head.position, Head.position + (Vector3)dir);
+
+            //Assign body sprite
+            for (int i = 1; i < Body.Count - 1; i++)
+            {
+                BodySprite[i].sprite = spriteManager.GetSprite(1, Body[i + 1].position, Body[i].position, Body[i - 1].position);
+            }
+            BodySprite[0].sprite = spriteManager.GetSprite(1, Body[1].position, Body[0].position, Head.position);
+
+            //Assign tail sprite
+            BodySprite[Body.Count - 1].sprite = spriteManager.GetSprite(2, Vector3.zero, Body[Body.Count - 1].position, Body[Body.Count - 2].position);
+        }
+        catch
+        {
+
         }
     }
 

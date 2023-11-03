@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -18,6 +19,16 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         snake = FindObjectOfType<Snake>();
+
+        replayButton.onClick.AddListener(delegate
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        });
+
+        mainMenuButton.onClick.AddListener(delegate
+        {
+            SceneManager.LoadScene(0);
+        });
     }
 
     void Update()
@@ -27,6 +38,11 @@ public class GameManager : MonoBehaviour
 
     public void ShowEndScreen()
     {
+        StartCoroutine(Show());
+    }
+    IEnumerator Show()
+    {
+        yield return new WaitForSeconds(1.0f);
         endText.text = $"You Scored {snake.GetScore}";
         endScreen.SetActive(true);
     }
